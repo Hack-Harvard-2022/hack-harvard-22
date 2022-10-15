@@ -1,2 +1,2 @@
-grammar-check
+language_tool_python
 sounddevice
