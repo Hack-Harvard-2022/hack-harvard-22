@@ -1,2 +1,9 @@
-language_tool_python
+language-tool-python
+transformers
+sentencepiece
+python-Levenshtein
+fuzzywuzzy
+tokenizers
+fsspec
+errant
 sounddevice
