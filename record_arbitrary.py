@@ -6,7 +6,7 @@ import sounddevice as sd
 import soundfile as sf
 import numpy  # Make sure NumPy is loaded before it is used in the callback
 assert numpy  # avoid "imported but unused" message (W0611)
-
+q = None
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -46,11 +46,13 @@ def setup_record(parser, args):
     if args.filename is None:
         args.filename = tempfile.mktemp(prefix='delme_rec_unlimited_',
                                         suffix='.wav', dir='')
+    global q
     q = queue.Queue()
     return q
 
 def callback(indata, frames, time, status):
     """This is called (from a separate thread) for each audio block."""
+    global q
     if status:
         print(status, file=sys.stderr)
     q.put(indata.copy())
