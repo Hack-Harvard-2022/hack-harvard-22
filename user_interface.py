@@ -12,6 +12,7 @@ import argparse
 import tempfile
 import queue
 import sys
+import _thread
 
 
 def int_or_str(text):
@@ -60,13 +61,21 @@ def recording():
         if status:
             print(status, file=sys.stderr)
         q.put(indata.copy())
-
+    
     with sf.SoundFile(args.filename, mode='x', samplerate=args.samplerate,
                       channels=args.channels, subtype=args.subtype) as file:
         with sd.InputStream(samplerate=args.samplerate, device=args.device,
                             channels=args.channels, callback=callback):
+            def loop_function():
+                while True:
+                    file.write(q.get())
             while True:
-                file.write(q.get())
+                _thread.start_new_thread(loop_function, ())
+                event, value = window.read()
+                if event in (None, 'Exit'):
+                    break
+                if event == "STOP":
+                    break
     window.close()
     parser.exit(0)
     return
