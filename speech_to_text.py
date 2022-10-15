@@ -17,6 +17,32 @@ def speech_to_text(file):
 
         # using google speech recognition
         r.adjust_for_ambient_noise(source)
-        text = r.recognize_google(audio_text)
+        text = r.recognize_sphinx(audio_text)
+        '''try:
+            text = r.recognize_google(audio_text)
+        except:
+            try:
+                text = r.recognize_bing(audio_text)
+            except:
+                try:
+                    text = r.recognize_ibm(audio_text)
+                except:
+                    try:
+                        text = r.recognize_houndify(audio_text)
+                    except:
+                        try:
+                            text = r.recognize_sphinx(audio_text)
+                        except:
+                            try:
+                                text = r.recognize_wit(audio_text)
+                            except:
+                                try:
+                                    text = r.recognize_google_cloud(audio_text)
+                                except:
+                                    try:
+                                        text = r.recognize_sphinx(audio_text)
+                                    except:
+                                        print("ERROR: Speech recognition failed")
+                                        exit()'''
         return text
         

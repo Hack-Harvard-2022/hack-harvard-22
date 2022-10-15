@@ -7,3 +7,5 @@ tokenizers
 fsspec
 errant
 sounddevice
+PocketSphinx
+google-cloud-speech
