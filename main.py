@@ -2,6 +2,7 @@
 from check_grammar import *
 from record_speech import *
 from speech_to_text import *
+import os
 
 
 file = 'temp.wav'
@@ -12,7 +13,6 @@ record_for_time(file, time)
 
 input_str = speech_to_text(file)
 
-tool = initialize_tool("en-US")
-result = analyze_string(tool, input_str)
-str = correct_string(result, input_str)
-print(str)
+print(check_grammar(input_str))
+
+os.remove("temp.wav")
