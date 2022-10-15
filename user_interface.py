@@ -1,3 +1,4 @@
+from fileinput import filename
 from sys import breakpointhook
 import PySimpleGUI as sg
 import argparse
@@ -8,12 +9,10 @@ import sounddevice as sd
 import soundfile as sf
 import numpy  # Make sure NumPy is loaded before it is used in the callback
 assert numpy  # avoid "imported but unused" message (W0611)
-import argparse
-import tempfile
-import queue
-import sys
 import _thread
-
+import os
+from speech_to_text import speech_to_text
+from check_grammar import check_grammar
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -52,9 +51,12 @@ def recording():
         # soundfile expects an int, sounddevice provides a float:
         args.samplerate = int(device_info['default_samplerate'])
     if args.filename is None:
-        args.filename = tempfile.mktemp(prefix='delme_rec_unlimited_',
+        args.filename = tempfile.mktemp(prefix='temp_',
                                         suffix='.wav', dir='')
     q = queue.Queue()
+
+    global filename
+    filename = args.filename
 
     def callback(indata, frames, time, status):
         """This is called (from a separate thread) for each audio block."""
@@ -77,12 +79,10 @@ def recording():
                 if event == "STOP":
                     break
     window.close()
-    parser.exit(0)
     return
 
 def main():
     layout = [[sg.Text("Welcome to SpeechLearn")], [sg.Text("Click to record")], [sg.Button("RECORD")]]
-
     # create window
     window = sg.Window("SpeechLearn", layout, margins = (300,200))
 
@@ -94,6 +94,12 @@ def main():
         # ends program if window closed or user clicks OK
         if event == "RECORD":
             recording()
+            global filename
+            input_str = speech_to_text(filename)
+            print(input_str)
+            fixed_str = check_grammar(input_str)
+            print(fixed_str)
+            os.remove(filename)
             # stop button appears
             # record_speech.py
             # speech_to_text.py
