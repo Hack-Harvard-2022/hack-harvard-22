@@ -65,8 +65,7 @@ def recording():
                       channels=args.channels, subtype=args.subtype) as file:
         with sd.InputStream(samplerate=args.samplerate, device=args.device,
                             channels=args.channels, callback=callback):
-            event = None
-            while window.read()[0] != "STOP":
+            while True:
                 file.write(q.get())
     window.close()
     parser.exit(0)
