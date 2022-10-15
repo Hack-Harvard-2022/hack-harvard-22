@@ -1,15 +1,21 @@
 import language_tool_python
-import urllib2
+import requests
+
+def __init__(self, language, string, tool = None):
+    if not tool == None:
+        self.initialize_tool(language)
+    
+
 
 def internet_on():
     try:
-        urllib2.urlopen('http://216.58.192.142', timeout=1)
+        requests.get(url = "https://google.com")
         return True
-    except urllib2.URLError as err: 
+    except: 
         return False
 
-def initialize_tool(language='en_US'):
-    if not internet_on():
+def initialize_tool(self, language='en_US'):
+    if not self.internet_on():
         tool = language_tool_python.LanguageTool(language)
     else:
         tool = language_tool_python.LanguageToolPublicAPI(language)
@@ -18,8 +24,7 @@ def initialize_tool(language='en_US'):
 def analyze_string(tool, input_str):
     matches = tool.check(input_str)
 
-#input_str = input("enter your sentence: ")
-input_str = "you no do laundry"
+
 
 
 
