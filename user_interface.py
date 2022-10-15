@@ -82,21 +82,21 @@ def recording():
     return
 
 
-#def print_result(input, fixed):
-    #layout = [[sg.Text("Your speech: ")],
-    #[sg.Text(input)],
-    #[sg.Text("Modified: ")],
-    #[sg.Text(fixed)]
-    #]
+def print_result(input, fixed):
+    layout = [[sg.Text("Your speech: ")],
+    [sg.Text(input)],
+    [sg.Text("Modified: ")],
+    [sg.Text(fixed)]
+    ]
 
-    #window = sg.Window("SpeechLearn", layout, margins = (300,200))
+    window = sg.Window("SpeechLearn", layout, margins = (300,200))
 
-    #while True:
-        #event, values = window.read()
-        #if event in (None, 'Exit'):
-        #    break
-    #window.close()
-    #return
+    while True:
+        event, values = window.read()
+        if event in (None, 'Exit'):
+            break
+    window.close()
+    return
 
 def main():
     layout = [[sg.Text("Welcome to SpeechLearn")], [sg.Text("Click to record")], [sg.Button("RECORD")]]
@@ -117,7 +117,7 @@ def main():
             fixed_str = check_grammar(input_str)
             print(fixed_str)
             os.remove(filename)
-            #print_result(input_str, fixed_str)
+            print_result(input_str, fixed_str)
             # stop button appears
             # record_speech.py
             # speech_to_text.py
