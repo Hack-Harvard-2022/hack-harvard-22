@@ -1,12 +1,6 @@
 import language_tool_python
 import requests
 
-def __init__(self, language, string, tool = None):
-    if not tool == None:
-        self.initialize_tool(language)
-    
-
-
 def internet_on():
     try:
         requests.get(url = "https://google.com")
@@ -14,15 +8,21 @@ def internet_on():
     except: 
         return False
 
-def initialize_tool(self, language='en_US'):
-    if not self.internet_on():
+def initialize_tool(language='en_US'):
+    if not internet_on():
         tool = language_tool_python.LanguageTool(language)
     else:
         tool = language_tool_python.LanguageToolPublicAPI(language)
     return tool
 
 def analyze_string(tool, input_str):
-    matches = tool.check(input_str)
+    return tool.check(input_str)
+
+def correct_string(matches, input_str):
+    is_bad_rule = lambda rule: rule.message == 'Possible spelling mistake found.' and len(rule.replacements) and rule.replacements[0][0].isupper()
+    matches = [rule for rule in matches if not is_bad_rule(rule)]
+    return language_tool_python.utils.correct(input_str, matches)
+
 
 
 
