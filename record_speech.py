@@ -8,8 +8,7 @@ def record_for_time(file, time):
     
     # Start recorder with the given values 
     # of duration and sample frequency
-    recording = sd.rec(int(time * freq), 
-                    samplerate=freq, channels=1)
+    recording = sd.rec(int(time * freq), samplerate=freq, channels=1)
     
     # Record audio for the given number of seconds
     sd.wait()

@@ -16,6 +16,9 @@ def internet_on():
         return False
 
 def initialize_tool(language='en_US'):
+    tool = language_tool_python.LanguageTool(language)
+    return tool
+    '''
     if language == 'en_US':
         set_seed(1212)
         gf = Gramformer(models = 1, use_gpu=False)
@@ -23,9 +26,10 @@ def initialize_tool(language='en_US'):
         tool = language_tool_python.LanguageTool(language)
     else:
         tool = language_tool_python.LanguageToolPublicAPI(language)
-    return [tool, gf]
+    return [tool, gf]'''
 
 def analyze_string(tool, input_str):
+    return correct_string(tool.check(input_str), input_str)
     try:
         return tool[1].correct(input_str, max_candidates=1)
     except:

@@ -6,7 +6,7 @@ from speech_to_text import *
 
 file = 'temp.wav'
 
-time = input("enter time: ")
+time = int(input("enter time: "))
 
 record_for_time(file, time)
 
